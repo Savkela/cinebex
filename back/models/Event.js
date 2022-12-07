@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const CinemaSchema = new mongoose.Schema({
+const EventSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  address: {
+  type: {
     type: String,
     required: true,
   },
@@ -14,20 +14,14 @@ const CinemaSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  workHour: {
+  month: {
     type: String,
     required: true,
   },
-  parking: {
-    type: String,
-    required: true,
+  cinema: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Cinema",
   },
-  events: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Event",
-    },
-  ],
 });
 
-export default mongoose.model("Cinema", CinemaSchema);
+export default mongoose.model("Event", EventSchema);
