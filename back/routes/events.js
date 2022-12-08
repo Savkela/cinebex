@@ -1,16 +1,24 @@
 import express from "express";
 import { nextTick } from "process";
 import Cinema from "../models/Cinema.js";
+import Event from "../models/Event.js";
 import { createError } from "../utils/error.js";
 
 const router = express.Router();
 
 //create
 router.post("/", async (req, res) => {
-  const newCinema = new Cinema(req.body);
+  const newEvent = new Event(req.body);
   try {
-    const saveCinema = await newCinema.save();
-    res.status(200).json(saveCinema);
+    const saveEvent = await newEvent.save();
+    await Cinema.findByIdAndUpdate(req.body.cinemaId, {
+      $push: {
+        events: {
+          _id: saveEvent.id,
+        },
+      },
+    });
+    res.status(200).json(saveEvent);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -19,14 +27,14 @@ router.post("/", async (req, res) => {
 //update
 router.put("/:id", async (req, res) => {
   try {
-    const updatedCinema = await Cinema.findByIdAndUpdate(
+    const updatedEvent = await Event.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
       },
       { new: true }
     );
-    res.status(200).json(updatedCinema);
+    res.status(200).json(updatedEvent);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -35,8 +43,9 @@ router.put("/:id", async (req, res) => {
 //delete
 router.delete("/:id", async (req, res) => {
   try {
-    await Cinema.findByIdAndDelete(req.params.id);
-    res.status(200).json("Cinema has been deleted");
+    await Event.findByIdAndDelete(req.params.id);
+
+    res.status(200).json("Event has been deleted");
   } catch (err) {
     res.status(500).json(err);
   }
@@ -45,8 +54,8 @@ router.delete("/:id", async (req, res) => {
 //get
 router.get("/:id", async (req, res) => {
   try {
-    const cinema = await Cinema.findById(req.params.id);
-    res.status(200).json(cinema);
+    const event = await event.findById(req.params.id);
+    res.status(200).json(event);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -56,8 +65,8 @@ router.get("/:id", async (req, res) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const cinemas = await Cinema.find().populate("events");
-    res.status(200).json(cinemas);
+    const events = await Event.find().populate("cinema");
+    res.status(200).json(events);
   } catch (err) {
     next(err);
   }
