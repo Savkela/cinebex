@@ -1,27 +1,25 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const CinemaShema = new mongoose.Schema({
+const TechnologySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  address: {
-    type: String,
+  percentageOnPrice: {
+    type: Number,
     required: true,
+    min: 1,
+    max: 20,
   },
-  description: {
-    type: String,
-    required: true,
+  projections: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Projection",
   },
-  workHour: {
-    type: String,
-    required: true,
-  },
-  parking: {
-    type: String,
-    required: true,
+  halls: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Hall",
   },
 });
 
-export default mongoose.model("Cinema", CinemaShema);
+export default mongoose.model("Technology", TechnologySchema);

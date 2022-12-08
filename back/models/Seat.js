@@ -1,27 +1,31 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const CinemaShema = new mongoose.Schema({
+const SeatShema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  address: {
+  type: {
     type: String,
+    enum: ["free", "taked", "unavailable", "disabled", "freeVip"],
+    default: "free",
     required: true,
   },
-  description: {
-    type: String,
+  price: {
+    type: Number,
     required: true,
   },
-  workHour: {
-    type: String,
+  row: {
+    type: Number,
     required: true,
+    min: 1,
+    max: 50,
   },
-  parking: {
-    type: String,
+  nubmer: {
+    type: Number,
     required: true,
   },
 });
 
-export default mongoose.model("Cinema", CinemaShema);
+export default mongoose.model("Seat", SeatShema);
