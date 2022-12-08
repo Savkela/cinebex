@@ -1,27 +1,23 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const CinemaShema = new mongoose.Schema({
+const PriceSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  address: {
+  price: {
     type: String,
     required: true,
   },
-  description: {
+  photoUrl: {
     type: String,
-    required: true,
+    required: false,
   },
-  workHour: {
-    type: String,
-    required: true,
-  },
-  parking: {
-    type: String,
-    required: true,
+  cinema: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Cinema",
   },
 });
 
-export default mongoose.model("Cinema", CinemaShema);
+export default mongoose.model("Price", PriceSchema);

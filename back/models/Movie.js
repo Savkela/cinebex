@@ -1,12 +1,8 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const CinemaShema = new mongoose.Schema({
+const MovieSchema = new mongoose.Schema({
   name: {
-    type: String,
-    required: true,
-  },
-  address: {
     type: String,
     required: true,
   },
@@ -14,14 +10,62 @@ const CinemaShema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  workHour: {
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  length: {
+    type: Number,
+    required: true,
+  },
+  state: {
     type: String,
     required: true,
   },
-  parking: {
+  director: {
     type: String,
     required: true,
   },
+  distributor: {
+    type: String,
+    required: true,
+  },
+  genres: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Genre",
+    },
+  ],
+  actors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Actor",
+    },
+  ],
+  rates: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Rate",
+    },
+  ],
+  projections: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Projection",
+    },
+  ],
+  cinemas: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cinema",
+    },
+  ],
+  photos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Photo",
+    },
+  ],
 });
 
-export default mongoose.model("Cinema", CinemaShema);
+export default mongoose.model("Movie", MovieSchema);

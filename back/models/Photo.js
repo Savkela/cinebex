@@ -1,23 +1,19 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const HallSchema = new mongoose.Schema({
-  name: {
+const PhotoSchema = new mongoose.Schema({
+  url: {
     type: String,
     required: true,
-  },
-  seats: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Seat",
   },
   cinema: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Cinema",
   },
-  projection: {
+  movie: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Projection",
+    ref: "Movie",
   },
 });
 
-export default mongoose.model("Hall", HallSchema);
+export default mongoose.model("Photo", PhotoSchema);
