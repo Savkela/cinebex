@@ -26,6 +26,10 @@ const SeatShema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  hall: {
+    type: Schema.Types.ObjectId,
+    ref: "Hall",
+  },
 });
 
 export default mongoose.model("Seat", SeatShema);

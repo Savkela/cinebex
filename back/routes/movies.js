@@ -1,16 +1,16 @@
 import express from "express";
 import { nextTick } from "process";
-import Cinema from "../models/Cinema.js";
+import Movie from "../models/Movie.js";
 import { createError } from "../utils/error.js";
 
 const router = express.Router();
 
 //create
 router.post("/", async (req, res) => {
-  const newCinema = new Cinema(req.body);
+  const newMovie = new Movie(req.body);
   try {
-    const saveCinema = await newCinema.save();
-    res.status(200).json(saveCinema);
+    const saveMovie = await newMovie.save();
+    res.status(200).json(saveMovie);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -19,14 +19,14 @@ router.post("/", async (req, res) => {
 //update
 router.put("/:id", async (req, res) => {
   try {
-    const updatedCinema = await Cinema.findByIdAndUpdate(
+    const updatedMovie = await Movie.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
       },
       { new: true }
     );
-    res.status(200).json(updatedCinema);
+    res.status(200).json(updatedMovie);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -35,8 +35,8 @@ router.put("/:id", async (req, res) => {
 //delete
 router.delete("/:id", async (req, res) => {
   try {
-    await Cinema.findByIdAndDelete(req.params.id);
-    res.status(200).json("Cinema has been deleted");
+    await Movie.findByIdAndDelete(req.params.id);
+    res.status(200).json("Movie has been deleted");
   } catch (err) {
     res.status(500).json(err);
   }
@@ -45,8 +45,8 @@ router.delete("/:id", async (req, res) => {
 //get
 router.get("/:id", async (req, res) => {
   try {
-    const cinema = await Cinema.findById(req.params.id);
-    res.status(200).json(cinema);
+    const Movie = await Movie.findById(req.params.id);
+    res.status(200).json(Movie);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -56,12 +56,14 @@ router.get("/:id", async (req, res) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const cinemas = await Cinema.find()
-      .populate("events")
-      .populate("equipments")
-      .populate("prices")
+    const Movies = await Movie.find()
+      .populate("genres")
+      .populate("actors")
+      .populate("rates")
+      .populate("projections")
+      .populate("cinemas")
       .populate("photos");
-    res.status(200).json(cinemas);
+    res.status(200).json(Movies);
   } catch (err) {
     next(err);
   }

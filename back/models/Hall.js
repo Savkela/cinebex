@@ -14,10 +14,12 @@ const HallSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Cinema",
   },
-  projection: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Projection",
-  },
+  projections: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Projection",
+    },
+  ],
 });
 
 export default mongoose.model("Hall", HallSchema);

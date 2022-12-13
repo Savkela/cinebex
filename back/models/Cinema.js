@@ -40,6 +40,12 @@ const CinemaSchema = new mongoose.Schema({
       ref: "Price",
     },
   ],
+  photos: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Photo",
+    },
+  ],
 });
 
 export default mongoose.model("Cinema", CinemaSchema);
