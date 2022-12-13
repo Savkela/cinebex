@@ -10,16 +10,20 @@ const TechnologySchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 1,
-    max: 20,
+    max: 30,
   },
-  projections: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Projection",
-  },
-  halls: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Hall",
-  },
+  projections: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Projection",
+    },
+  ],
+  halls: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Hall",
+    },
+  ],
 });
 
 export default mongoose.model("Technology", TechnologySchema);
