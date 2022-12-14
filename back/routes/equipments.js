@@ -3,72 +3,24 @@ import { nextTick } from "process";
 import Equipment from "../models/Equipment.js";
 import { createError } from "../utils/error.js";
 import Cinema from "../models/Cinema.js";
+import {
+  createEquipment,
+  deleteEquipment,
+  getEquipment,
+  getEquipments,
+  updateEquipment,
+} from "../controllers/equipment.js";
 
 const router = express.Router();
 
-//create
-router.post("/", async (req, res) => {
-  const newEquipment = new Equipment(req.body);
-  try {
-    const saveEquipment = await newEquipment.save();
-    await Cinema.findByIdAndUpdate(req.body.cinemaId, {
-      $push: {
-        equipments: {
-          _id: saveEquipment.id,
-        },
-      },
-    });
-    res.status(200).json(saveEquipment);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.post("/", createEquipment);
 
-//update
-router.put("/:id", async (req, res) => {
-  try {
-    const updatedEquipment = await Equipment.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
-    res.status(200).json(updatedEquipment);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.put("/:id", updateEquipment);
 
-//delete
-router.delete("/:id", async (req, res) => {
-  try {
-    await Equipment.findByIdAndDelete(req.params.id);
-    res.status(200).json("Equipment has been deleted");
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.delete("/:id", deleteEquipment);
 
-//get
-router.get("/:id", async (req, res) => {
-  try {
-    const Equipment = await Equipment.findById(req.params.id);
-    res.status(200).json(Equipment);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.get("/:id", getEquipment);
 
-//getAll
-
-router.get("/", async (req, res, next) => {
-  try {
-    const Equipments = await Equipment.find().populate("cinema");
-    res.status(200).json(Equipments);
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/", getEquipments);
 
 export default router;
