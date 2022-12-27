@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
@@ -17,6 +18,13 @@ import photoRoute from "./routes/photos.js";
 import actorRoute from "./routes/actors.js";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
+
 dotenv.config();
 
 const connect = async () => {
